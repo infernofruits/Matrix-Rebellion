@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEON OVERRIDE: Roguelike Sandbox</title>
+    <title>Galactic Spark</title>
     <style>
         :root {
             --neon-blue: #00f0ff;
@@ -24,14 +24,11 @@
             background-color: var(--bg-dark);
             color: #ffffff;
             font-family: 'Courier New', Courier, monospace;
-            overflow: hidden;space 
+            overflow: hidden;
             height: 100vh;
             width: 100vw;
             display: flex;
-            justify-content: center;research gamming
-and entertainment it is difficult to imagine our life without this technology
-so it is necessary for everyone from school students to senior citizens to learn about and use it effectively a computer 
-v  b
+            justify-content: center;
             align-items: center;
         }
 
@@ -49,7 +46,6 @@ v  b
             background: radial-gradient(circle at center, #111122 0%, #05050a 100%);
         }
 
-        /* HUD Overlays Styles */
         .hud-layer {
             position: absolute;
             top: 20px;
@@ -91,7 +87,6 @@ v  b
         #hp-fill { background: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink); }
         #xp-fill { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
 
-        /* Modal Overlay Screens */
         .screen-overlay {
             position: absolute;
             top: 0;
@@ -150,7 +145,6 @@ v  b
             box-shadow: 0 0 15px var(--neon-green);
         }
 
-        /* Card Selection System for Level Up */
         .card-row {
             display: flex;
             gap: 20px;
@@ -204,7 +198,7 @@ v  b
             </div>
 
             <div class="hud-panel" style="border-left-color: var(--neon-green); align-items: flex-end;">
-                <div>BUFFER DATA CACHE (XP)</div>
+                <div>XP</div>
                 <div class="bar-container">
                     <div id="xp-fill" class="bar-fill"></div>
                 </div>
@@ -214,7 +208,7 @@ v  b
 
         <div id="start-screen" class="screen-overlay">
             <div class="terminal-window">
-                <div class="terminal-title">▲ NEON_OVERRIDE.EXE</div>
+                <div class="terminal-title">▲ GALACTIC SPARK</div>
                 <p style="color: #8899aa; line-height: 1.6;">Infiltrate the mainframe coordinate plane. Dodge localized security arrays. Absorb data-shards to construct iterative modular adaptations.</p>
                 <p style="margin-top: 15px; font-size: 0.9rem; color: var(--neon-pink);">CONTROLS: WASD / Arrows to Shift. Mouse to Aim & Fire.</p>
                 <button class="btn-action" onclick="startGame()">Initialize Infiltration</button>
@@ -224,8 +218,7 @@ v  b
         <div id="levelup-screen" class="screen-overlay hidden">
             <div class="terminal-title" style="color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green);">▲ MODULAR UPGRADE AVAILABLE</div>
             <p style="color: #a0a0c0;">Select hardware expansion modification patch:</p>
-            <div class="card-row" id="upgrade-card-container">
-                </div>
+            <div class="card-row" id="upgrade-card-container"></div>
         </div>
 
         <div id="gameover-screen" class="screen-overlay hidden">
@@ -239,21 +232,18 @@ v  b
     </div>
 
 <script>
-    // --- Engine Configuration & Instantiations ---
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
-    // Global Operational Environment Variables
     let gameState = "START"; 
     let entities = { player: null, bullets: [], enemies: [], particles: [], shards: [] };
     let keys = {};
     let mouse = { x: 0, y: 0 };
     let spawnTimer = 0;
-    let spawnRate = 90; // Frame interval sequence loops
+    let spawnRate = 90; 
     let score = 0;
     let gameFrame = 0;
 
-    // Viewport Dimension Scaling
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -261,7 +251,6 @@ v  b
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // --- Input Listener Subsystems ---
     window.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; });
     window.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
     window.addEventListener('mousemove', e => {
@@ -275,7 +264,6 @@ v  b
         }
     });
 
-    // --- Object Blueprints & Class Engines ---
     class Player {
         constructor(x, y) {
             this.x = x;
@@ -287,10 +275,9 @@ v  b
             this.level = 1;
             this.xp = 0;
             this.nextLevelXp = 10;
-            
-            // Scalable Upgrade Variables
+
             this.fireCooldown = 0;
-            this.baseCooldown = 22; // lower is faster execution
+            this.baseCooldown = 22; 
             this.bulletDamage = 25;
             this.bulletSpeed = 10;
             this.multiShot = 1; 
@@ -298,7 +285,6 @@ v  b
         }
 
         update() {
-            // Movement Vector Calculation Matrix
             let moveX = 0;
             let moveY = 0;
             if (keys['w'] || keys['arrowup']) moveY -= 1;
@@ -315,7 +301,6 @@ v  b
             this.x += moveX * this.speed;
             this.y += moveY * this.speed;
 
-            // Enforce Screen Space Constraints
             this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
             this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
 
@@ -325,12 +310,10 @@ v  b
         draw() {
             ctx.save();
             ctx.translate(this.x, this.y);
-            
-            // Structural Rotation Matrix calculation based on cursor location
+
             let angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
             ctx.rotate(angle);
 
-            // Vector drawing the Neon Ship
             ctx.shadowBlur = 15;
             ctx.shadowColor = '#00f0ff';
             ctx.strokeStyle = '#00f0ff';
@@ -346,7 +329,6 @@ v  b
             ctx.fill();
             ctx.stroke();
 
-            // Inner Core engine node decoration
             ctx.fillStyle = '#ff007f';
             ctx.shadowColor = '#ff007f';
             ctx.beginPath();
@@ -372,9 +354,8 @@ v  b
                 entities.bullets.push(new Bullet(this.x, this.y, angle, this.bulletSpeed, this.bulletDamage));
                 entities.bullets.push(new Bullet(this.x, this.y, angle + 0.25, this.bulletSpeed, this.bulletDamage));
             }
-            
-            // Micro recoil impact effect particles
-            createExplosion(this.x + Math.cos(angle)*15, this.y + Math.sin(angle)*15, '#00f0ff', 3);
+
+            createExplosion(this.x + Math.cos(angle) * 15, this.y + Math.sin(angle) * 15, '#00f0ff', 3);
         }
 
         gainXp(amount) {
@@ -412,7 +393,6 @@ v  b
         update() {
             this.x += this.vx;
             this.y += this.vy;
-            // Out of boundary monitoring execution flag loop
             if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
                 this.toDestroy = true;
             }
@@ -437,7 +417,6 @@ v  b
             this.type = type;
             this.toDestroy = false;
 
-            // Algorithmic balance adjustment configurations
             if (type === "Standard") {
                 this.radius = 12;
                 this.speed = 2.0;
@@ -452,7 +431,7 @@ v  b
                 this.color = '#ffff00';
                 this.damageValue = 10;
                 this.xpValue = 3;
-            } else { // Heavy Program Matrix Boss
+            } else { 
                 this.radius = 24;
                 this.speed = 1.1;
                 this.hp = 120;
@@ -478,13 +457,11 @@ v  b
 
             ctx.beginPath();
             if (this.type === "Chaser") {
-                // Diamond configuration shape template
                 ctx.moveTo(this.x, this.y - this.radius);
                 ctx.lineTo(this.x + this.radius, this.y);
                 ctx.lineTo(this.x, this.y + this.radius);
                 ctx.lineTo(this.x - this.radius, this.y);
             } else if (this.type === "Heavy") {
-                // Hexagonal structure algorithm setup
                 for (let i = 0; i < 6; i++) {
                     let angle = (Math.PI / 3) * i;
                     let hx = this.x + Math.cos(angle) * this.radius;
@@ -492,8 +469,7 @@ v  b
                     if (i === 0) ctx.moveTo(hx, hy); else ctx.lineTo(hx, hy);
                 }
             } else {
-                // Standard block shape structural vectors
-                ctx.rect(this.x - this.radius, this.y - this.radius, this.radius*2, this.radius*2);
+                ctx.rect(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
             }
             ctx.closePath();
             ctx.fill();
@@ -507,7 +483,6 @@ v  b
             if (this.hp <= 0) {
                 this.toDestroy = true;
                 score++;
-                // Spawn dynamic upgrade data items 
                 entities.shards.push(new DataShard(this.x, this.y, this.xpValue));
             }
         }
@@ -526,17 +501,14 @@ v  b
         update(player) {
             this.pulseTimer += 0.1;
             let dist = Math.hypot(player.x - this.x, player.y - this.y);
-            
-            // Magnet pull calculation model
+
             if (dist <= player.magnetRadius) {
                 let angle = Math.atan2(player.y - this.y, player.x - this.x);
-                // Accelerated pull logic
                 let pullStep = (player.magnetRadius - dist) / 10 + 2; 
                 this.x += Math.cos(angle) * pullStep;
                 this.y += Math.sin(angle) * pullStep;
             }
 
-            // Collection evaluation loop checks
             if (dist <= player.radius + this.radius) {
                 player.gainXp(this.value);
                 this.toDestroy = true;
@@ -587,7 +559,6 @@ v  b
         }
     }
 
-    // --- Auxiliary Core Utility Matrices ---
     function createExplosion(x, y, color, count) {
         for (let i = 0; i < count; i++) {
             entities.particles.push(new Particle(x, y, color));
@@ -597,33 +568,30 @@ v  b
     function updateHud() {
         const p = entities.player;
         if (!p) return;
-        
+
         document.getElementById('hp-txt').innerText = `${Math.max(0, p.hp)}/${p.maxHp}`;
         document.getElementById('hp-fill').style.width = `${Math.max(0, (p.hp / p.maxHp) * 100)}%`;
-        
+
         document.getElementById('lvl-txt').innerText = p.level;
         document.getElementById('score-txt').innerText = score;
         document.getElementById('xp-fill').style.width = `${(p.xp / p.nextLevelXp) * 100}%`;
     }
 
-    function spawnEnemySequence() {
+    function spawnEnemySequence(){
         spawnTimer++;
         if (spawnTimer >= spawnRate) {
             spawnTimer = 0;
-            // Gradually increment global system engine difficulty scale thresholds
             if (gameFrame % 400 === 0 && spawnRate > 25) spawnRate -= 4;
 
-            // Generate spatial position calculations outside current screen parameters
             let x, y;
             if (Math.random() < 0.5) {
                 x = Math.random() < 0.5 ? -30 : canvas.width + 30;
                 y = Math.random() * canvas.height;
             } else {
                 x = Math.random() * canvas.width;
-                y = Math.random() < 0.5 ? -30 : canvas.height + 30;
+                y = Math.random() < 0.5 ? -30 : canvas.height + 30; 
             }
 
-            // Determine generation variant roll matrices
             let rand = Math.random();
             let type = "Standard";
             if (rand > 0.85) type = "Heavy";
@@ -635,11 +603,10 @@ v  b
 
     function renderGridBackground() {
         ctx.save();
-        ctx.strokeStyle = "rgba(0, 240, 255, 0.03)";
+        ctx.strokeStyle = "rgba(0,240,255,0.03)";
         ctx.lineWidth = 1;
         const gridSize = 60;
-        
-        // Scan line loops
+
         for (let x = 0; x < canvas.width; x += gridSize) {
             ctx.beginPath();
             ctx.moveTo(x, 0);
@@ -654,25 +621,23 @@ v  b
         }
         ctx.restore();
     }
-
-    // --- Dynamic Structural Roguelike Card Pool Mechanics ---
-    const UPGRADE_POOL = [
-        { id: 'speed', name: 'OVERCLOCK OVERDRIVE', desc: 'Increases engine translation response rate (+15% Movement Velocity)' },
-        { id: 'rate', name: 'CYCLIC TRIGGER', desc: 'Optimizes software runtime weapon cooldown routines (-18% Reload Latency)' },
-        { id: 'damage', name: 'OVERCHARGED CORE', desc: 'Amplifies structural output payload vectors (+25% Bullet Damage)' },
-        { id: 'magnet', name: 'DATA SYNC HORIZON', desc: 'Broadens automated data capture field parameters (+40% Magnet Range)' },
-        { id: 'multishot', name: 'SPLIT-STREAM COMPILER', desc: 'Splits tracking execution blocks (+1 Global Projectile Count. Cap: 3)' },
-        { id: 'heal', name: 'NANO-REPAIR PATCH', desc: 'Instantly executes system architecture logic restore (+40% Current HP)' }
+    
+    const UPGRADE_POOL = [  
+        { id: 'speed', name: 'OVERCLOCK OVERDRIVE', desc: 'Increases engine movement speed (+15% Movement Velocity)'},
+        { id: 'rate', name: 'CYCLIC TRIGGER', desc: 'Decreases reload speed (-18% Reload Latency)'},
+        { id: 'damage', name: 'OVERCHARGED CORE', desc: 'Increases bullet damage (+25% Bullet Damage)'},
+        { id: 'magnet', name: 'DATA SYNC HORIZON', desc: 'Increases the XP collection area range (+40% Magnet Range)'},
+        { id: 'multishot', name: 'SPLIT-STREAM ARRAY', desc: 'Splits firing output to launch additional projectiles.'},
+        { id: 'heal', name: 'NANO-REPAIR PATCH', desc: 'Deploys localized cellular recovery matrix (+40% Current HP)'}
     ];
 
-    function triggerLevelUp() {
+    function triggerLevelUp(){
         gameState = "LEVELUP";
         document.getElementById('levelup-screen').classList.remove('hidden');
-        
-        const container = document.getElementById('upgrade-card-container');
-        container.innerHTML = ''; // Wipe past configurations safely
 
-        // Pick three entirely random cards
+        const container = document.getElementById('upgrade-card-container');
+        container.innerHTML = '';
+
         let shuffled = [...UPGRADE_POOL].sort(() => 0.5 - Math.random());
         let choices = shuffled.slice(0, 3);
 
@@ -704,29 +669,27 @@ v  b
         document.getElementById('levelup-screen').classList.add('hidden');
         gameState = "RUNNING";
         updateHud();
-        lastTime = performance.now(); // Prevents system logic lag jumps
         animateLoop();
     }
 
-    // --- Primary Pipeline Game Control Sequences ---
-    function startGame() {
+    function startGame(){
         document.getElementById('start-screen').classList.add('hidden');
-        
+
         entities.player = new Player(canvas.width / 2, canvas.height / 2);
         entities.enemies = [];
         entities.bullets = [];
         entities.particles = [];
         entities.shards = [];
-        
+
         score = 0;
         gameFrame = 0;
         spawnRate = 90;
         gameState = "RUNNING";
-        
+
         updateHud();
         animateLoop();
     }
-
+     
     function endGame() {
         gameState = "GAMEOVER";
         document.getElementById('final-score').innerText = score;
@@ -738,35 +701,28 @@ v  b
         startGame();
     }
 
-    // --- Main Calculation Animation Runloop ---
     function animateLoop() {
         if (gameState !== "RUNNING") return;
 
         gameFrame++;
-        // Refresh buffer cleanly
         ctx.fillStyle = '#06060c';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
+
         renderGridBackground();
-
-        // 1. Spawning Mechanics Engine Engine
         spawnEnemySequence();
-
-        // 2. State Adjustments Layer
         entities.player.update();
 
-        // Dynamic Object Layer Processing Loop Matrices
         entities.bullets.forEach(b => b.update());
         entities.enemies.forEach(e => e.update(entities.player.x, entities.player.y));
         entities.shards.forEach(s => s.update(entities.player));
         entities.particles.forEach(p => p.update());
-
-        // 3. Mathematical Interaction Collision Engine Verification Processing Loop
+        
+        // Bullet-Enemy Collisions
         for (let b = entities.bullets.length - 1; b >= 0; b--) {
             for (let e = entities.enemies.length - 1; e >= 0; e--) {
                 let bullet = entities.bullets[b];
                 let enemy = entities.enemies[e];
-                
+
                 if (!bullet || !enemy) continue;
 
                 let dist = Math.hypot(bullet.x - enemy.x, bullet.y - enemy.y);
@@ -777,24 +733,23 @@ v  b
             }
         }
 
-        // Enemy-to-Player collision computation blocks
+        // Player-Enemy Collisions
         for (let e = entities.enemies.length - 1; e >= 0; e--) {
             let enemy = entities.enemies[e];
             let dist = Math.hypot(entities.player.x - enemy.x, entities.player.y - enemy.y);
             if (dist < entities.player.radius + enemy.radius) {
                 enemy.toDestroy = true;
                 entities.player.takeDamage(enemy.damageValue);
-                createExplosion(enemy.x, enemy.y, enemy.color, 10);
             }
         }
 
-        // 4. Memory Scrub Cleanups Filtering Modules
+        // Clean arrays
         entities.bullets = entities.bullets.filter(b => !b.toDestroy);
         entities.enemies = entities.enemies.filter(e => !e.toDestroy);
         entities.shards = entities.shards.filter(s => !s.toDestroy);
         entities.particles = entities.particles.filter(p => p.life > 0);
 
-        // 5. Drawing Pipe Operations Stage
+        // Render remaining elements
         entities.shards.forEach(s => s.draw());
         entities.bullets.forEach(b => b.draw());
         entities.enemies.forEach(e => e.draw());
@@ -806,4 +761,3 @@ v  b
 </script>
 </body>
 </html>
-
